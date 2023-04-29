@@ -1,0 +1,161 @@
+class Node{
+	int data;
+	Node left;
+	Node right;
+}
+
+class BST{
+	
+	public Node createNewNode(int k) {
+		Node a = new Node();
+		a.data = k;
+		a.left = null;
+		a.right = null;
+		return a;
+	}
+	
+	public Node insert(Node node, int val) {
+		if(node == null) {
+			return createNewNode(val);
+		}
+		
+		if(val<=node.data) {
+			node.left = insert(node.left,val);
+		}else if(val>node.data) {
+			node.right=insert(node.right,val);
+		}
+		return node;
+	}
+	public Node delete(Node node, int val) {
+		if(node == null) {
+			return null;}
+		
+		if(val < node.data) {
+			node.left = delete(node.left, val);
+		} else if(val>node.data) {
+			node.right = delete(node.right, val);
+		} else {
+			if(node.left == null || node.right==null) {
+				Node temp = null;
+				temp = node.left == null ? node.right : node.left;
+				
+				if(temp == null) {
+					return null;
+					} else {
+					return temp;}
+			} else {
+				Node successor = getSuccessor(node);
+				node.data = successor.data;
+				node.right = delete(node.right, successor.data);
+				return node;
+			}
+		}
+		return node;
+	}
+	
+	public Node getSuccessor(Node node) {
+		if(node == null) {
+			return null;
+		}
+	Node temp = node.right;
+	
+	while(temp.left != null) {
+		temp = temp.left;
+	}
+	
+	return temp;
+	}
+	
+	public void inOrder(Node node) {
+		if(node == null) {
+			return;
+		}
+		inOrder(node.left);
+		System.out.print(node.data + " ");
+		inOrder(node.right);
+		}
+		
+	public boolean search(Node node, int val) {
+		if(node == null) {
+			return false;
+		}
+		
+		boolean isPresent = false;
+		
+		while(node!= null) {
+			if(val < node.data) {
+				node = node.left;
+			}else if(val>node.data) {
+				node = node.right;
+			}else {
+				isPresent = true;
+				break;
+			}
+		}
+		return isPresent;
+	}
+	
+	public int getHeightofTree(Node node){
+	   if(node==null){
+	       return -1;
+	   } 
+	   return max(getHeightofTree(node.left), getHeightofTree(node.right))+1;
+	}
+	
+	public int max(int x, int y){
+	    if(x>y)
+	        return x;
+	   else
+	    return y;
+	}
+	
+}
+
+
+public class Main {
+public static void main(String[] args) {
+  
+	BST a = new BST();
+	Node roota = null;
+	
+	roota = a.insert(roota, 1);
+	roota = a.insert(roota, 2);
+	roota = a.insert(roota, 3);
+	roota = a.insert(roota, 4);
+	roota = a.insert(roota, 5);
+	roota = a.insert(roota, 6);
+	roota = a.insert(roota, 7);
+	roota = a.insert(roota, 8);
+	roota = a.insert(roota, 9);
+	roota = a.insert(roota, 10);
+	roota = a.insert(roota, 11);
+	roota = a.insert(roota, 12);
+	roota = a.insert(roota, 13);
+	roota = a.insert(roota, 14);
+	roota = a.insert(roota, 15); 
+	
+	System.out.println("BST:");
+	a.inOrder(roota);
+	System.out.println("");
+	
+	System.out.println("Is value 2 present in the tree? " + a.search(roota,2));
+	
+	System.out.println("Removing 5");
+	a.delete(roota, 5);
+	a.inOrder(roota);
+	System.out.println("");
+	
+	System.out.println("Removing 15");	
+	a.delete(roota, 15);
+	a.inOrder(roota);
+	System.out.println("");
+	
+	System.out.println("Adding 2");	
+    roota = a.insert(roota, 2);
+	a.inOrder(roota);
+	System.out.println("");
+	
+	System.out.println("");
+	System.out.println("The height of the tree is " + a.getHeightofTree(roota));
+    }
+}
