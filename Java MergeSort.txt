@@ -1,0 +1,66 @@
+import java.time.Duration;
+import java.time.Instant;
+
+public class Main
+{
+	public static void main(String[] args) {
+	long startTime = System.nanoTime();
+	int[] arr = {1, 2, 4, 5, 3, 7, 8, 10, 11, 9, 6};
+
+		
+		for(int i = 0;i<arr.length;i++){
+		    System.out.print(arr[i] + " ");
+		}
+		
+		System.out.println(" ");
+		
+		mSort(arr);
+		
+		for(int i = 0;i<arr.length;i++){
+		    System.out.print(arr[i] + " ");
+		}
+		
+	long endTime = System.nanoTime();
+	long duration = (endTime-startTime);
+	System.out.println("\nThe duration of the program is " + duration + " nano seconds."); 
+	}
+	
+	public static void mSort(int[] arr){
+	    mSort(arr, new int[arr.length],0,arr.length-1);
+	}
+	
+	public static void mSort(int[] arr,int[] temp, int lStart, int rEnd){
+	    if(lStart >= rEnd)
+	        return;
+	    
+	    int M = (lStart + rEnd)/2;
+	    mSort(arr,temp,lStart,M);
+	    mSort(arr,temp,M+1,rEnd);
+	    mHalves(arr,temp,lStart,rEnd);
+	}
+	
+	public static void mHalves(int[] arr,int[] temp, int lStart, int rEnd){
+	    int lEnd = (rEnd + lStart)/2;
+	    int rStart = lEnd + 1;
+	    int size = rEnd - lStart + 1;
+	    
+	    int L = lStart;
+	    int R = rStart;
+	    int index = lStart;
+	    
+	    while((L <= lEnd) && (R <= rEnd)){
+	        if(arr[L] <= arr[R]){
+	            temp[index] = arr[L];
+	            L++;
+	           } else{
+	               temp[index] = arr[R];
+	               R++;
+	        }
+	        index++;
+	    }
+	    
+	    System.arraycopy(arr,L,temp,index,lEnd-L+1);
+	    System.arraycopy(arr,R,temp,index,rEnd-R+1);
+	    System.arraycopy(temp,lStart,arr,lStart,size);
+	}
+}
