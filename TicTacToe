@@ -1,0 +1,141 @@
+import java.util.Scanner;
+
+public class TicTacToe {
+	public static void main(String[] args) {
+	Scanner scan = new Scanner(System.in);
+			
+	int rows = 3;
+	int columns = 3;
+	int turns = 0;
+
+	int[][] game = new int[rows][columns];
+		          
+	int x;
+	int y;
+
+	while(turns<9) {
+		if(turns%2==0) {
+			System.out.println("Player 1");
+		}
+		else {
+			System.out.println("Player 2");
+		}
+		System.out.println("which row? 1,2,3");
+		x = scan.nextInt();
+		x--;
+		System.out.println("which column? 1,2,3");
+		y = scan.nextInt();
+		y--;
+		
+		if(x>3 || x<0) {
+			System.out.println("The row you chose is out of bounds");
+			continue;
+		}
+		
+		if(y>3 || y<0) {
+			System.out.print("The column you chose is out of bounds.");
+			continue;
+		}
+		
+		if(game[x][y]==0) {
+			if(turns%2==0) {
+				game[x][y] = 1;
+			}
+			else {
+				game[x][y] = 2;
+			}
+		}else {
+			System.out.println("That spot is taken.");
+			continue;
+		}
+		
+		for(int i=0;i<3;i++) {
+			System.out.println();
+			for(int j=0;j<3;j++) {
+				System.out.print(game[i][j] + " ");
+			}
+		}
+		System.out.println();
+		//player 1 win conditions
+		//horizontal win
+		if(game[0][0] == 1 && game[0][1] == 1 && game[0][2] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		if(game[1][0] == 1 && game[1][1] == 1 && game[1][2] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		if(game[2][0] == 1 && game[2][1] == 1 && game[2][2] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		//vertical win
+		if(game[0][0] == 1 && game[1][0] == 1 && game[2][0] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		if(game[0][1] == 1 && game[1][1] == 1 && game[2][1] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		if(game[0][2] == 1 && game[1][2] == 1 && game[2][2] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		//diagonal win
+		if(game[0][0] == 1 && game[1][1] == 1 && game[2][2] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		if(game[0][2] == 1 && game[1][1] == 1 && game[2][0] == 1) {
+			System.out.println("Player 1 wins!");
+			break;
+		}
+		
+		//player 2 win conditions
+		//horizontal win
+		if(game[0][0] == 2 && game[0][1] == 2 && game[0][2] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		if(game[1][0] == 2 && game[1][1] == 2 && game[1][2] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		if(game[2][0] == 2 && game[2][1] == 2 && game[2][2] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		//vertical win
+		if(game[0][0] == 2 && game[1][0] == 2 && game[2][0] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		if(game[0][1] == 2 && game[1][1] == 2 && game[2][1] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		if(game[0][2] == 2 && game[1][2] == 2 && game[2][2] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		
+		//diagonal win
+		if(game[0][0] == 2 && game[1][1] == 2 && game[2][2] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		if(game[0][2] == 2 && game[1][1] == 2 && game[2][0] == 2) {
+			System.out.println("Player 2 wins!");
+			break;
+		}
+		
+		System.out.println();
+		turns++;
+		}
+
+		if(turns>=9) 
+		System.out.println("Tie Game!");
+	  }
+	}
