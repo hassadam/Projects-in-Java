@@ -1,0 +1,178 @@
+import java.util.Scanner;
+
+public class Connect4 {
+
+	public static void main(String[] args) {
+	Scanner scan = new Scanner(System.in);
+		int turns = 0;
+		int invalid = 0;
+		boolean winner = false;
+		int i = 0;
+		int j = 0;
+		int x = 0;
+		String type = "Nothing";
+		int[][] game = new int[6][7];
+		
+while(turns<42 && winner == false) {
+System.out.println("1 2 3 4 5 6 7");
+System.out.print("-------------");
+for(i=0;i<6;i++) {
+	System.out.println();
+	for(j=0;j<7;j++) {
+		System.out.print(game[i][j] + " ");
+				}
+			}
+System.out.println();
+System.out.println();
+if(turns%2==0) {
+	System.out.println("Player 1, turn: " + (turns+1));
+}
+else {
+	System.out.println("Player 2, turn: " + (turns+1));
+}
+System.out.println("Which column? 1,2,3,4,5,6,7");
+x = scan.nextInt();
+x--;
+if(x>6 || x<0) {
+	System.out.println("That option is out of bounds!");
+	continue;
+}
+
+for(i=5;i>-1;i--) {
+	if(game[i][x]!=0 && i==0) {
+		System.out.println("This column is full! Please choose another.");
+		invalid = 1;
+		break;
+	}
+	if(game[i][x]!=0) {
+		continue;
+	}
+	if(game[i][x]==0) {
+		if(turns%2==0) {
+			game[i][x]=1;
+			break;
+		}
+		else{
+			game[i][x]=2;
+			break;
+		}
+	}
+}	
+if(invalid == 1) {
+	invalid = 0;
+	continue;
+}
+
+//checking for a winner
+while(winner==false) {
+	//Player 1
+	//Checking for horizontal win
+	for(i=0;i<4;i++) {
+	for(j=0;j<6;j++) {
+		if(game[j][i] == 1 && game[j][i+1] == 1  && game[j][i+2] == 1 && game[j][i+3] == 1) {
+			winner = true;
+			type = "horizontal";
+		}
+	 }
+  }
+	//Checking for vertical Win
+	for(i=0;i<7;i++) {
+		for(j=0;j<3;j++) {
+			if(game[j][i] == 1 && game[j+1][i]==1 && game[j+2][i]==1 && game[j+3][i]==1) {
+				winner = true;
+				type = "veritical";
+			}
+		} 
+	}
+	//Checking for backward diagonal win
+	for(i=0;i<4;i++) {
+		for(j=0;j<3;j++) {
+			if(game[j][i]==1 && game[j+1][i+1]==1 && game[j+2][i+2]==1 && game[j+3][i+3]==1) {
+				winner=true;
+				type = "diagonal";
+			}
+		}
+	}
+	//Checking for forward diagonal win
+	for(i=6;i>2;i--) {
+		for(j=0;j<3;j++) {
+			if(game[j][i]==1 && game[j+1][i-1]==1 && game[j+2][i-2]==1 && game[j+3][i-3]==1) {
+				winner = true;
+				type = "diagonal";
+			}
+		}
+	}
+	
+	
+	//Player 2
+	//Checking for horizontal win
+	for(i=0;i<4;i++) {
+	for(j=0;j<6;j++) {
+		if(game[j][i] == 2 && game[j][i+1] == 2  && game[j][i+2] == 2 && game[j][i+3] == 2) {
+			winner = true;
+			type = "horizontal";
+		}
+	 }
+  }
+	
+	//Checking for vertical Win
+	for(i=0;i<7;i++) {
+		for(j=0;j<3;j++) {
+			if(game[j][i] == 2 && game[j+1][i]==2 && game[j+2][i]==2 && game[j+3][i]==2) {
+				winner = true;
+				type = "vertical";
+			}
+		   }
+		  }
+	//Checking for backward diagonal win
+	for(i=0;i<4;i++) {
+		for(j=0;j<3;j++) {
+			if(game[j][i]==2 && game[j+1][i+1]==2 && game[j+2][i+2]==2 && game[j+3][i+3]==2) {
+				winner=true;
+				type = "diagonal";
+			}
+		}
+	}
+	//Checking for forward diagonal win
+	for(i=6;i>2;i--) {
+		for(j=0;j<3;j++) {
+			if(game[j][i]==2 && game[j+1][i-1]==2 && game[j+2][i-2]==2 && game[j+3][i-3]==2) {
+				winner = true;
+				type = "diagonal";
+			}
+		}
+	}
+	break;
+}
+turns++;
+if(winner==true) {
+	turns--;
+
+	System.out.print("The winner is ");
+	if(turns%2==0) {
+		System.out.print("Player 1 ");
+	}else {
+		System.out.print("Player 2 ");
+	}
+
+	System.out.println("on turn "+(turns+1)+ ".");
+	System.out.println("They won with a "+type+".");
+	
+	System.out.println("1 2 3 4 5 6 7");
+	System.out.print("-------------");
+	for(i=0;i<6;i++) {
+		System.out.println();
+		for(j=0;j<7;j++) {
+			System.out.print(game[i][j] + " ");
+					}
+				}
+	System.out.println();
+			}
+					}
+if(winner == false) {
+System.out.println("Max turns reached!");
+System.out.println("Tie Game!");
+System.out.println();
+			}
+		}
+	}
