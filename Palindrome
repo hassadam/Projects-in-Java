@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+public class Palindrome {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		boolean success = true;
+		int size;
+		
+		while(true) {
+		System.out.println("Please enter a word you believe to be a palindrome.");
+		String word = scan.next();
+		size = word.length();
+		scan.nextLine();
+
+		for(int i = 0;i < Math.floor(size/2);i++) {
+			if(word.charAt(i) != word.charAt(size-i-1)) {
+				success = false;
+				System.out.println("This isn't a palindrome.");
+				break;
+				}			
+			}
+		
+		if(success == true) {
+			System.out.println("This is a palindrome.");
+			}
+		
+		System.out.println("Would you like exit? Enter \"Quit\"");
+		word = scan.next();
+		
+		if(word.compareTo("Quit") != 0 && word.compareTo("quit")!=0) {
+			scan.nextLine();
+			success = true;
+			continue;
+		}else {
+			System.out.println("Goodbye!");
+			break;
+			}
+		}
+		scan.close();
+	}
+}
