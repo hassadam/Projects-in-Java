@@ -1,0 +1,132 @@
+//The purpose of this program is to flip around rows and columns so that the upper left most quadrant has the greatest sum compared to the rest of the quadrants. It randomly generates the size of the matrix and the values inside the matrix.
+
+import java.util.Random;
+
+public class Flip {
+
+	public static void main(String[] args) {
+		Random rand = new Random();
+		int n = rand.nextInt(2)+2;
+		
+		int[][] matrix = new int[2*n][2*n];
+		
+		for(int i=0;i<2*n;i++) {
+			for(int j=0;j<2*n;j++) {
+				matrix[i][j] = rand.nextInt(100);
+			}
+		}
+		System.out.println("Before:");
+		
+		for(int i=0;i<2*n;i++) {
+			System.out.println();
+			for(int j=0;j<2*n;j++) {
+				System.out.print(matrix[i][j]+"\t");
+			}
+			System.out.println();
+		}
+		int temp=0;
+		int leftRow = 0;
+		int rightRow = 0;
+		int upperHalf = 0;
+		int lowerHalf = 0;
+		
+		
+		
+		for(int j=0;j<(2*n);j++) {
+			leftRow = 0;
+			rightRow = 0;
+			for(int i=0;i<n;i++) {
+				leftRow = leftRow + matrix[j][i];
+			}
+			for(int i=n ;i<(2*n);i++) {
+				rightRow = rightRow + matrix[j][i];
+			}
+			System.out.println(leftRow+" L and R "+rightRow);
+			
+		if(leftRow < rightRow) {
+			for(int i = 0;i<n;i++) {
+				temp = matrix[j][i];
+				matrix[j][i] = matrix[j][(2*n)-i-1];
+				matrix[j][(2*n)-i-1]=temp;
+			}
+			System.out.println("Row "+(j+1)+" has been swapped.");
+			}else {
+				System.out.println("No changes made for row "+(j+1)+".");
+			}
+		}
+		System.out.println("After row swaps:");
+		for(int i=0;i<2*n;i++) {
+			System.out.println();
+			for(int j=0;j<2*n;j++) {
+				System.out.print(matrix[i][j]+"\t");
+			}
+			System.out.println();
+		}
+		
+		for(int i=0;i<(2*n);i++) {
+			upperHalf = 0;
+			lowerHalf = 0;
+			for(int j=0;j<n;j++) {
+				upperHalf = upperHalf + matrix[j][i];
+			}
+			for(int j=n ;j<(2*n);j++) {
+				lowerHalf = lowerHalf + matrix[j][i];
+			}
+			
+			System.out.println(upperHalf+"U and L"+lowerHalf);
+			
+			if(upperHalf < lowerHalf) {
+				for(int j=0;j<n;j++) {
+					temp = matrix[j][i];
+					matrix[j][i] = matrix[(2*n)-1-j][i];
+					matrix[(2*n)-1-j][i] = temp;
+				}
+			System.out.println("Column "+(i+1)+" has been swapped.\n");
+				
+			}else {
+				System.out.println("No changes made to column "+(i+1)+".\n");
+			}
+		}
+		System.out.println("After column swaps:");
+		for(int i=0;i<2*n;i++) {
+			System.out.println();
+			for(int j=0;j<2*n;j++) {
+				System.out.print(matrix[i][j]+"\t");
+			}
+			System.out.println();
+		}
+		
+		int sumUL = 0;
+		int sumUR = 0;
+		int sumBL = 0;
+		int sumBR = 0;
+		
+		for(int i = 0; i<n;i++) {
+			for(int j = 0; j<n;j++) {
+				sumUL = sumUL + matrix[i][j];
+			}
+		}
+		
+		for(int i = n; i<(2*n);i++) {
+			for(int j = 0; j<n;j++) {
+				sumBL = sumBL + matrix[i][j];
+			}
+		}
+		
+		for(int i = 0; i<n;i++) {
+			for(int j = n; j<(2*n);j++) {
+				sumUR = sumUR + matrix[i][j];
+			}
+		}
+		
+		for(int i = n; i<(2*n);i++) {
+			for(int j = n; j<(2*n);j++) {
+				sumBR = sumBR + matrix[i][j];
+			}
+		}
+		System.out.println("The upper left quadrant has the sum of: "+sumUL+".");
+		System.out.println("The bottom left quadrant has the sum of: "+sumBL+".");
+		System.out.println("The upper right quadrant has the sum of: "+sumUR+".");
+		System.out.println("The bottom right quadrant has the sum of: "+sumBR+".");
+	}
+}
