@@ -1,0 +1,201 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class CalcV1 {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		ArrayList<String> list = new ArrayList<String>();
+		int plus,minus,div,mult,operand,decPoint;
+		double x,y,z;
+		boolean cond = true;
+		
+		while(true) {
+		System.out.println("Please enter your math problem with a space between every item.");
+		String formula = scan.nextLine();
+		String[] form = formula.split(" ");
+				
+		if(form.length <= 1) {
+			System.out.println("Please enter a valid input.");
+			continue;
+		}
+				
+		for(int i=0;i<form.length;i++) {
+			decPoint = 0;
+			if(cond == true) {
+			list.add(form[i]);
+			
+			if(i%2==0) {
+				for(int j = 0;j<form[i].length();j++) {
+					if(form[i].charAt(j) == '.') {
+						decPoint++;
+					}
+				}
+				if(decPoint>1 || decPoint<0) {
+					cond = false;
+				}
+			}
+			
+			if(i%2!=0) {
+				if(Character.isDigit(form[i].charAt(0))== true) {
+				cond = false;
+				break;
+					}
+				}
+			}
+			else {
+				System.out.println("Please enter a valid input.");
+				break;
+			}
+		}
+		
+		operand = (int)Math.floor(form.length/2);
+		
+		while(operand>0 && cond) {
+			
+		plus = list.indexOf("+");
+		minus = list.indexOf("-");
+		div = list.indexOf("/");
+		mult = list.indexOf("*");
+		
+		if(mult > -1 && div > -1) {
+			if(mult < div) {
+				x = Double.parseDouble(list.get(mult-1));
+				y = Double.parseDouble(list.get(mult+1));
+				z = x*y;
+				
+				list.remove(mult-1);
+				list.remove(mult-1);
+				list.remove(mult-1);
+				
+				list.add(mult-1, Double.toString(z));
+				operand--;
+				continue;
+			}
+			if(div < mult) {
+				x = Double.parseDouble(list.get(div-1));
+				y = Double.parseDouble(list.get(div+1));
+				if(y == 0) {
+					System.out.println("Cannot divide by 0.");
+					cond = false;
+					break;
+				}
+				z = x/y;
+				
+				list.remove(div-1);
+				list.remove(div-1);
+				list.remove(div-1);
+				
+				list.add(div-1,Double.toString(z));
+				operand--;
+				continue;
+			}
+		}
+		if(div>-1 && mult == -1) {
+				x = Double.parseDouble(list.get(div-1));
+				y = Double.parseDouble(list.get(div+1));
+				if(y == 0) {
+					System.out.println("Cannot divide by 0.");
+					cond = false;
+					break;
+				}
+				z = x/y;
+			
+				list.remove(div-1);
+				list.remove(div-1);
+				list.remove(div-1);
+			
+				list.add(div-1,Double.toString(z));
+				operand--;
+				continue;
+			}
+		
+		if(div==-1 && mult >-1) {
+			x = Double.parseDouble(list.get(mult-1));
+			y = Double.parseDouble(list.get(mult+1));
+			z = x*y;
+			
+			list.remove(mult-1);
+			list.remove(mult-1);
+			list.remove(mult-1);
+			
+			list.add(mult-1, Double.toString(z));
+			operand--;
+			continue;			
+		}
+		
+		if(plus >-1 && minus >-1) {
+			
+			if(plus < minus) {
+				x = Double.parseDouble(list.get(plus-1));
+				y = Double.parseDouble(list.get(plus+1));
+				z = x+y;
+				list.remove(plus-1);
+				list.remove(plus-1);
+				list.remove(plus-1);
+				
+				list.add(plus-1, Double.toString(z));
+				operand--;
+				continue;
+			}
+			
+			if(plus > minus) {
+				x = Double.parseDouble(list.get(minus-1));
+				y = Double.parseDouble(list.get(minus+1));
+				z = x-y;
+				list.remove(minus-1);
+				list.remove(minus-1);
+				list.remove(minus-1);
+				
+				list.add(minus-1, Double.toString(z));
+				operand--;
+				continue;	
+			}			
+		}
+		if(plus >-1 && minus==-1) {
+			x = Double.parseDouble(list.get(plus-1));
+			y = Double.parseDouble(list.get(plus+1));
+			z = x+y;
+			list.remove(plus-1);
+			list.remove(plus-1);
+			list.remove(plus-1);
+			
+			list.add(plus-1, Double.toString(z));
+			operand--;
+			continue;
+		}
+		
+		if(plus == -1 && minus > -1) {
+			x = Double.parseDouble(list.get(minus-1));
+			y = Double.parseDouble(list.get(minus+1));
+			z = x-y;
+			list.remove(minus-1);
+			list.remove(minus-1);
+			list.remove(minus-1);
+			
+			list.add(minus-1, Double.toString(z));
+			operand--;
+			continue;
+				}	
+			}
+		if(cond == true)
+		System.out.println(formula + " = " + list.get(0));
+		
+		System.out.println("Enter yes if you would you enter another problem.");
+		formula = scan.nextLine();
+				
+		if(formula.compareToIgnoreCase("yes")==0) {
+			cond = true;
+			list.clear();
+			continue;
+		}
+		
+		else {
+			System.out.println("Goodbye!");
+			scan.close();
+			break;
+		}
+		
+			}
+		}
+	}
