@@ -1,0 +1,505 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Calcv2 {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> subList = new ArrayList<String>();
+		int openPar,closePar,operand;
+		int plug = 0;
+		boolean cond = true;
+		
+		while(true) {
+		System.out.println("Please enter your math problem with a space between every item.");
+		String formula = scan.nextLine();
+		String[] form = formula.split(" ");
+				
+		for(int i=0;i<form.length;i++) {
+			if(i>0 && form[i].charAt(0)=='(' && form[i-1].charAt(0)==')') {
+			list.add("*");
+			list.add(form[i]);
+			continue;
+			}
+			
+			if(i>0 && form[i].charAt(0)=='(' && Character.isDigit(form[i-1].charAt(0))) {
+			list.add("*");
+			list.add(form[i]);
+			continue;
+			}
+			
+			if(i<form.length-1 && form[i].charAt(0)==')' && form[i+1].charAt(0)=='(') {
+			list.add(form[i]);
+			list.add("*");
+			list.add(form[i+1]);
+			i++;
+			continue;
+			}
+			
+			if(i<form.length-1 && form[i].charAt(0)==')' && Character.isDigit(form[i+1].charAt(0))) {
+			list.add(form[i]);
+			list.add("*");
+			list.add(form[i+1]);
+			i++;
+			continue;
+			}
+			
+			list.add(form[i]);
+		}
+		System.out.println(list);
+		
+		operand = (int)Math.floor(form.length/2);
+		
+		while(operand > 0 && cond) {
+			
+		openPar = list.indexOf("(");
+		closePar = list.indexOf(")");
+		
+		if((openPar > -1 && closePar == -1) || (openPar == -1 && closePar > -1)) {
+			System.out.println("Error!\nMismatching brackets, please enter a valid input.");
+			cond = false;
+			break;
+		}
+		
+		while(list.contains("(")==true && list.contains(")")==true && cond) {
+			openPar = list.indexOf("(");
+			closePar = list.indexOf(")");
+	
+			ArrayList<String> tempList = (ArrayList<String>)list.clone();
+			while (tempList.contains("(")) {
+				plug++;
+				if(tempList.contains("(")) {
+					tempList.remove("(");
+					int tempOpen = tempList.indexOf("(");
+					if(tempOpen!=-1 && tempOpen < closePar) {
+						openPar = tempOpen+plug;
+						}
+				}else {
+					break;
+				}
+			}
+			
+			for(int i = openPar ;i<=closePar;i++) {
+				subList.add(list.get(i));
+			}
+			System.out.println("Sublist: "+subList);
+			
+			for(int j = 0;j<subList.size();j++) {
+			list.remove(closePar-j);
+			}
+
+			
+			cond = CALCBoolean(subList);
+			list.add(openPar,Double.toString(CALC(subList)));
+			System.out.println("List: " + list);
+			subList.clear();
+			plug = 0;
+			
+				}
+		
+			cond = CALCBoolean(list);
+			if(cond) {
+			System.out.println(formula + " = " + CALC(list));
+			break;
+				}
+		}
+		
+		System.out.println("Enter yes if you would you enter another problem.");
+		formula = scan.nextLine();
+				
+		if(formula.compareToIgnoreCase("yes")==0) {
+			cond = true;
+			list.clear();
+			plug = 0;
+			continue;
+		}
+		
+		else {
+			System.out.println("Goodbye!");
+			scan.close();
+			break;
+		}
+		
+			}
+		}
+	
+	static double CALC(ArrayList<String> list) {
+	int plus,minus,div,mult,operand;
+	double x,y,z;
+	boolean cond = true;
+	if(list.get(0).charAt(0)=='(' && list.get(list.size()-1).charAt(0)==')') {
+		list.remove(list.size()-1);
+		list.remove(0);
+	}
+	
+	operand = (int)Math.floor(list.size()/2);
+	
+	while(operand > 0 && cond) {
+	plus = list.indexOf("+");
+	minus = list.indexOf("-");
+	div = list.indexOf("/");
+	mult = list.indexOf("*");
+	
+	if(mult > -1 && div > -1) {
+		if(mult < div) {
+			try {
+			x = Double.parseDouble(list.get(mult-1));
+			y = Double.parseDouble(list.get(mult+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			z = x*y;
+			
+			list.remove(mult-1);
+			list.remove(mult-1);
+			list.remove(mult-1);
+			
+			list.add(mult-1, Double.toString(z));
+			operand--;
+			continue;
+		}
+		if(div < mult) {
+			try {
+			x = Double.parseDouble(list.get(div-1));
+			y = Double.parseDouble(list.get(div+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			if(y == 0) {
+				System.out.println("Error!\nCannot divide by 0.");
+				cond = false;
+				break;
+			}
+			z = x/y;
+			
+			list.remove(div-1);
+			list.remove(div-1);
+			list.remove(div-1);
+			
+			list.add(div-1,Double.toString(z));
+			operand--;
+			continue;
+		}
+	}
+	if(div>-1 && mult == -1) {
+		try {
+			x = Double.parseDouble(list.get(div-1));
+			y = Double.parseDouble(list.get(div+1));
+		}catch (Exception e){
+			System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+			cond = false;
+			break;
+		}
+			if(y == 0) {
+				System.out.println("Cannot divide by 0.");
+				cond = false;
+				break;
+			}
+			z = x/y;
+		
+			list.remove(div-1);
+			list.remove(div-1);
+			list.remove(div-1);
+		
+			list.add(div-1,Double.toString(z));
+			operand--;
+			continue;
+		}
+	
+	if(div==-1 && mult >-1) {
+		try {
+		x = Double.parseDouble(list.get(mult-1));
+		y = Double.parseDouble(list.get(mult+1));
+		}catch (Exception e){
+			System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+			cond = false;
+			break;
+		}
+		z = x*y;
+		
+		list.remove(mult-1);
+		list.remove(mult-1);
+		list.remove(mult-1);
+		
+		list.add(mult-1, Double.toString(z));
+		operand--;
+		continue;			
+	}
+	
+	if(plus >-1 && minus >-1) {
+		
+		if(plus < minus) {
+			try {
+			x = Double.parseDouble(list.get(plus-1));
+			y = Double.parseDouble(list.get(plus+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			z = x+y;
+			list.remove(plus-1);
+			list.remove(plus-1);
+			list.remove(plus-1);
+			
+			list.add(plus-1, Double.toString(z));
+			operand--;
+			continue;
+		}
+		
+		if(plus > minus) {
+			try {
+			x = Double.parseDouble(list.get(minus-1));
+			y = Double.parseDouble(list.get(minus+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			z = x-y;
+			list.remove(minus-1);
+			list.remove(minus-1);
+			list.remove(minus-1);
+			
+			list.add(minus-1, Double.toString(z));
+			operand--;
+			continue;	
+		}			
+	}
+	if(plus >-1 && minus==-1) {
+		try {
+		x = Double.parseDouble(list.get(plus-1));
+		y = Double.parseDouble(list.get(plus+1));
+		}catch (Exception e){
+			System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+			cond = false;
+			break;
+		}
+		z = x+y;
+		list.remove(plus-1);
+		list.remove(plus-1);
+		list.remove(plus-1);
+		
+		list.add(plus-1, Double.toString(z));
+		operand--;
+		continue;
+	}
+	
+	if(plus == -1 && minus > -1) {
+		try {
+		x = Double.parseDouble(list.get(minus-1));
+		y = Double.parseDouble(list.get(minus+1));
+		}catch (Exception e) {
+			System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+			cond = false;
+			break;
+		}
+		z = x-y;
+		list.remove(minus-1);
+		list.remove(minus-1);
+		list.remove(minus-1);
+		
+		list.add(minus-1, Double.toString(z));
+		operand--;
+		continue;
+			}	
+	}
+	return Double.parseDouble(list.get(0));	
+	
+	}
+	
+	static boolean CALCBoolean(ArrayList<String> list) {
+		int plus,minus,div,mult,operand;
+		double x,y,z;
+		boolean cond = true;
+		if(list.get(0).charAt(0)=='(' && list.get(list.size()-1).charAt(0)==')') {
+			list.remove(list.size()-1);
+			list.remove(0);
+		}
+		
+		operand = (int)Math.floor(list.size()/2);
+		
+		while(operand > 0 && cond) {
+		plus = list.indexOf("+");
+		minus = list.indexOf("-");
+		div = list.indexOf("/");
+		mult = list.indexOf("*");
+		
+		if(mult > -1 && div > -1) {
+			if(mult < div) {
+				try {
+				x = Double.parseDouble(list.get(mult-1));
+				y = Double.parseDouble(list.get(mult+1));
+				}catch (Exception e){
+					System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+					cond = false;
+					break;
+				}
+				z = x*y;
+				
+				list.remove(mult-1);
+				list.remove(mult-1);
+				list.remove(mult-1);
+				
+				list.add(mult-1, Double.toString(z));
+				operand--;
+				continue;
+			}
+			if(div < mult) {
+				try {
+				x = Double.parseDouble(list.get(div-1));
+				y = Double.parseDouble(list.get(div+1));
+				}catch (Exception e){
+					System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+					cond = false;
+					break;
+				}
+				if(y == 0) {
+					System.out.println("Error!\nCannot divide by 0.");
+					cond = false;
+					break;
+				}
+				z = x/y;
+				
+				list.remove(div-1);
+				list.remove(div-1);
+				list.remove(div-1);
+				
+				list.add(div-1,Double.toString(z));
+				operand--;
+				continue;
+			}
+		}
+		if(div>-1 && mult == -1) {
+			try {
+				x = Double.parseDouble(list.get(div-1));
+				y = Double.parseDouble(list.get(div+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+				if(y == 0) {
+					System.out.println("Cannot divide by 0.");
+					cond = false;
+					break;
+				}
+				z = x/y;
+			
+				list.remove(div-1);
+				list.remove(div-1);
+				list.remove(div-1);
+			
+				list.add(div-1,Double.toString(z));
+				operand--;
+				continue;
+			}
+		
+		if(div==-1 && mult >-1) {
+			try {
+			x = Double.parseDouble(list.get(mult-1));
+			y = Double.parseDouble(list.get(mult+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			z = x*y;
+			
+			list.remove(mult-1);
+			list.remove(mult-1);
+			list.remove(mult-1);
+			
+			list.add(mult-1, Double.toString(z));
+			operand--;
+			continue;			
+		}
+		
+		if(plus >-1 && minus >-1) {
+			
+			if(plus < minus) {
+				try {
+				x = Double.parseDouble(list.get(plus-1));
+				y = Double.parseDouble(list.get(plus+1));
+				}catch (Exception e){
+					System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+					cond = false;
+					break;
+				}
+				z = x+y;
+				list.remove(plus-1);
+				list.remove(plus-1);
+				list.remove(plus-1);
+				
+				list.add(plus-1, Double.toString(z));
+				operand--;
+				continue;
+			}
+			
+			if(plus > minus) {
+				try {
+				x = Double.parseDouble(list.get(minus-1));
+				y = Double.parseDouble(list.get(minus+1));
+				}catch (Exception e){
+					System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+					cond = false;
+					break;
+				}
+				z = x-y;
+				list.remove(minus-1);
+				list.remove(minus-1);
+				list.remove(minus-1);
+				
+				list.add(minus-1, Double.toString(z));
+				operand--;
+				continue;	
+			}			
+		}
+		if(plus >-1 && minus==-1) {
+			try {
+			x = Double.parseDouble(list.get(plus-1));
+			y = Double.parseDouble(list.get(plus+1));
+			}catch (Exception e){
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			z = x+y;
+			list.remove(plus-1);
+			list.remove(plus-1);
+			list.remove(plus-1);
+			
+			list.add(plus-1, Double.toString(z));
+			operand--;
+			continue;
+		}
+		
+		if(plus == -1 && minus > -1) {
+			try {
+			x = Double.parseDouble(list.get(minus-1));
+			y = Double.parseDouble(list.get(minus+1));
+			}catch (Exception e) {
+				System.out.println("Error!\nOne of your inputs isn't proper. Please enter a valid input");
+				cond = false;
+				break;
+			}
+			z = x-y;
+			list.remove(minus-1);
+			list.remove(minus-1);
+			list.remove(minus-1);
+			
+			list.add(minus-1, Double.toString(z));
+			operand--;
+			continue;
+				}	
+		}
+		return cond;	
+		
+		}
+	
+	}
