@@ -1,0 +1,66 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class numGuess {
+
+	public static void main(String[] args) {
+		Random rand = new Random();
+		Scanner scan = new Scanner(System.in);
+		final int amt = 5;
+		
+		String answer;
+		int x = rand.nextInt(100)+1;
+		int guess;
+		int count = 0;
+		System.out.println("Guess the number!");
+		while(count<amt) {
+			count++;
+			
+			System.out.println("Try number: "+count);
+			guess = scan.nextInt();
+			
+			if(guess == x) {
+				System.out.println("You got it on try number "+count+".");
+				System.out.println("The number was "+x+".");
+				System.out.println("Wanna play again?");
+				answer = scan.next();
+				scan.nextLine();
+				
+				if(answer.compareToIgnoreCase("yes")==0) {
+					x = rand.nextInt(100)+1;
+					count=0;
+					System.out.println("Guess the number!");
+					continue;
+				}else {
+					System.out.println("Goodbye!");
+					break;
+				}
+			}
+			
+			if(count<amt) {
+			System.out.print("Wrong ");
+			if(guess>x) 
+				System.out.println("too high.");
+			if(guess<x)
+				System.out.println("too low.");
+			}
+			
+			if(count==amt) {
+				System.out.println("Out of tries! The answer was: "+x);
+				System.out.println("Wanna play again?");
+				answer = scan.next();
+				scan.nextLine();
+				
+				if(answer.compareToIgnoreCase("yes")==0) {
+					x = rand.nextInt(100)+1;
+					count=0;
+					System.out.println("Guess the number!");
+				}else {
+					System.out.println("Goodbye!");
+					break;
+				}
+				}
+			}
+			scan.close();
+		}
+	}
