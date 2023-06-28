@@ -1,0 +1,138 @@
+import java.util.Random;
+import java.util.ArrayList;
+
+public class merge {
+
+	public static void main(String[] args) {
+		Random rand = new Random();
+		
+		int size1 = rand.nextInt(2)+3;
+		int arr1[] = new int[size1];
+		
+		int size2 = rand.nextInt(2)+3;
+		int arr2[] = new int[size2];
+		
+		for(int i=0;i<size1;i++) {
+			arr1[i]=rand.nextInt(15)+1;
+		}
+		
+		for(int i=0;i<size2;i++) {
+			arr2[i]=rand.nextInt(15)+1;
+		}
+		
+		int mergeSize = size1+size2;
+		int arrMerge[] = new int[mergeSize];
+		
+		System.out.print("Array1: ");
+		pArray(arr1);
+		System.out.print("Array2: ");
+		pArray(arr2);
+		bSort(arr1);
+		bSort(arr2);
+		System.out.print("Array1: ");
+		pArray(arr1);
+		System.out.print("Array2: ");
+		pArray(arr2);
+		
+		System.out.print("Merged Array: ");
+		MergeSort(arr1,arr2,arrMerge);
+		pArray(arrMerge);
+		
+		scramble(arrMerge);
+		System.out.print("Scrambled array: ");
+		pArray(arrMerge);
+		
+
+	}
+	
+	
+	public static void MergeSort(int[] x1, int[] x2, int[] mx) {
+	
+		int i=0,j=0,p=0;
+		while(true) {
+			if(i==x1.length && j==x2.length) {
+				break;
+			}
+			if(i==x1.length) {
+				mx[p]=x2[j];
+				j++;
+				p++;
+				continue;
+			}
+			if(j==x2.length) {
+				mx[p]=x1[i];
+				i++;
+				p++;
+				continue;
+			}
+			if(x1[i]<=x2[j]) {
+				mx[p]=x1[i];
+				i++;
+				p++;
+				continue;
+			}
+			if(x1[i]>x2[j]) {
+				mx[p]=x2[j];
+				j++;
+				p++;
+				continue;
+			}	
+		}
+	}
+
+	public static void bSort(int[] temp) {
+		int sw;
+		boolean swap;
+		for(int i=0;i<temp.length-1;i++) {
+			swap = false;
+			
+			for(int j=0;j<temp.length-1-i;j++) {
+				if(temp[j]>temp[j+1]) {
+					sw=temp[j];
+					temp[j]=temp[j+1];
+					temp[j+1]=sw;
+					swap=true;
+				}				
+			}
+			if(swap==false)
+				break;	
+		}
+	}
+	
+	public static void pArray(int[] x) {
+		int y = x.length;
+		for(int i=0;i<y;i++) {
+			System.out.print(x[i]+ " ");
+		}
+		
+		System.out.println();
+		
+	}
+	
+	public static void scramble(int[] x) {
+		Random rand = new Random();
+		int temp;
+		int count=0;
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int pos1,pos2;
+		
+		while(count<Math.floor(x.length/2)) {
+			pos1 = rand.nextInt(x.length);
+			pos2 = rand.nextInt(x.length);
+			
+			
+			if(pos1 == pos2) {
+				continue;}
+			
+			if(list.contains(pos1)!=true && list.contains(pos2)!=true) {
+				list.add(pos1);
+				list.add(pos2);
+				temp = x[pos1];
+				x[pos1] = x[pos2];
+				x[pos2] = temp;
+				count++;
+				continue;
+			}
+		}
+	}
+}
