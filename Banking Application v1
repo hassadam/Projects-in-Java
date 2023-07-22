@@ -1,0 +1,545 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
+
+public class MainTab {
+
+	public static void main(String[] args) {
+	
+	Scanner scan = new Scanner(System.in);
+	ArrayList<User> list = new ArrayList<User>();
+	ArrayList<Integer> accNumList = new ArrayList<Integer>();
+	User login = new User();
+	boolean logincheck = false;
+	
+	try {
+		File AList = new File("AccountList.txt");
+		if(AList.createNewFile()) {
+		}else {
+			Scanner readAlist = new Scanner(AList);
+			String line;
+			String[] parsingLine = new String[6];
+			while(readAlist.hasNextLine()) {
+				line = readAlist.nextLine();
+				parsingLine = line.split(" ");
+				list.add(new User(parsingLine[0],parsingLine[1],parsingLine[2],Integer.parseInt(parsingLine[3]),Double.parseDouble(parsingLine[4]),Double.parseDouble(parsingLine[5])));
+				accNumList.add(Integer.parseInt(parsingLine[3]));
+			}
+			FileWriter op = new FileWriter("AccountLine.txt",false);
+			op.flush();
+		
+		}
+	}catch(IOException e) {
+		System.out.println("The list wasn't made.");
+
+	}
+	
+	Random rand = new Random();
+	int cont=0;
+	int opt=0;
+	String fname;
+	String lname;
+	String password;
+	int accNum;
+	double check;
+	double save;
+	int subopt;
+	
+	System.out.println("Welcome to the Bank of Adam.");
+	
+	while(cont==0) {
+	System.out.println("Please choose an option:\n1)Log into an existing account.\n2)Create a new account.");
+	subopt = scan.nextInt();
+	while(subopt<1 || subopt>2) {
+		System.out.println("Please enter a valid option");
+		subopt = scan.nextInt();
+	}
+		if(subopt == 1) {
+				System.out.println("Enter your account number.");
+				accNum = scan.nextInt();
+				for(User e : list) {
+					if(accNum == e.getAcc()) {
+						System.out.println("Please enter your password.");
+						password = scan.next();
+						scan.nextLine();
+						while(password.compareTo(e.getPassword())!=0) {
+							System.out.println("Please try again.");
+							password = scan.next();
+							scan.nextLine();
+						}
+				
+				System.out.println("You have successfully logged in.");
+				login = new User(e);
+				logincheck = true;
+				break;
+			}
+		}
+		if(logincheck==false) {	
+			System.out.println("That account number doesn't exist.");
+			continue;
+			}
+		
+	}	
+		if(subopt == 2) {
+			System.out.println("You chose to create a new account.\nPlease enter your first name.");
+			fname = scan.next();
+			scan.nextLine();
+			System.out.println("Please enter your last name.");
+			lname = scan.next();
+			scan.nextLine();
+			System.out.println("Please enter a password.");
+			password = scan.next();
+			scan.nextLine();
+			
+			accNum = rand.nextInt(1001,10000);
+			
+			while(accNumList.contains(accNum)==true) {
+				accNum = rand.nextInt(1001,10000);
+			}
+			
+			accNumList.add(accNum);
+			list.add(new User(fname,lname,password,accNum));
+			for(User e : list) {
+			if(e.getAcc() == accNum) {
+				login = new User(e);
+				System.out.println("Successfully created account.");
+				break;
+				}
+			}
+		}
+		
+	System.out.println("Welcome "+login.getFname());	
+	
+	printMenu();
+	opt = scan.nextInt();
+	while(opt<1 || opt > 9) {
+		System.out.println("Please enter a valid option!");
+		opt = scan.nextInt();
+	}
+	
+	if(opt == 1) {
+		System.out.println("You chose to create a new account.\nPlease enter your first name.");
+		fname = scan.next();
+		scan.nextLine();
+		System.out.println("Please enter your last name.");
+		lname = scan.next();
+		scan.nextLine();
+		System.out.println("Please enter a password.");
+		password = scan.next();
+		scan.nextLine();
+		
+		accNum = rand.nextInt(1001,10000);
+		
+		while(accNumList.contains(accNum)==true) {
+			accNum = rand.nextInt(1001,10000);
+		}
+		
+		accNumList.add(accNum);
+		list.add(new User(fname,lname,password,accNum));
+		System.out.println("Welcome to bank of adam "+fname+" "+lname+". Your account number is "+accNum+".");
+	}
+	
+	
+	if(opt == 2) {
+		System.out.println("You chose to update some information of your account.");
+				System.out.println("Please choose one of the options:\n1)Change first name\n2)Change last name\n3)Change password\n4)Cancel");
+				subopt = scan.nextInt();
+				while(subopt<1 || subopt>5) {
+					System.out.println("Please enter a valid option");
+					}
+				
+				if(subopt==1) {
+					System.out.println("Please enter the first name you wish to have.");
+					fname = scan.next();
+					scan.nextLine();
+					for(User e : list) {
+						if(e.getAcc() == login.getAcc()) {
+							e.setFname(fname);
+							login.setFname(fname);
+						}
+					}
+					System.out.println("Change confirmed.");
+					}
+				if(subopt==2) {
+					System.out.println("Please enter the last name you wish to have.");
+					lname = scan.next();
+					scan.nextLine();
+					for(User e : list) {
+						if(e.getAcc() == login.getAcc()) {
+							e.setLname(lname);
+							login.setLname(lname);
+						}
+					}
+					System.out.println("Change confirmed.");
+					}
+				if(subopt==3) {
+					System.out.println("Please enter the password you wish to have.");
+					password = scan.next();
+					scan.nextLine();
+					for(User e : list) {
+						if(e.getAcc() == login.getAcc()) {
+							e.setPassword(password);
+							login.setPassword(password);
+						}
+					}
+					System.out.println("Change confirmed.");
+					}
+				if(subopt==4) {
+					System.out.println("Going back to the main menu.");
+					break;
+					}
+				}
+		
+	if(opt == 3) {
+		System.out.println("You chose to withdraw from your account.\nPlease choose an option:\n1)Checkings\n2)Savings\n3)Return");
+		subopt = scan.nextInt();
+		while(subopt<1 || subopt>3) {
+			System.out.println("Please enter a valid option.");
+			subopt = scan.nextInt();
+		}
+		if(subopt == 1) {
+			System.out.println("How much would you like to withdraw from your checkings account?");
+			check = scan.nextDouble();
+			while(check < 0 || check > login.getCheckings()) {
+				System.out.println("Please enter a valid amount.");
+				check = scan.nextDouble();
+			}
+			login.setCheck(login.getCheckings()-check);
+			for(User e : list) {
+				if(e.getAcc() == login.getAcc()) {
+					e.setCheck(login.getCheckings());
+				}
+			}
+			System.out.println("You withdrew "+check+" from your checkings account. It's now "+login.getCheckings()+".");
+		}
+		if(subopt == 2) {
+			System.out.println("How much would you like to withdraw from your savings account?");
+			save = scan.nextDouble();
+			while(save < 0 || save > login.getSavings()) {
+				System.out.println("Please enter a valid amount.");
+				save = scan.nextDouble();
+			}
+			login.setSave(login.getSavings()-save);
+			for(User e : list) {
+				if(e.getAcc() == login.getAcc()) {
+					e.setSave(login.getSavings());
+				}
+			}
+			System.out.println("You withdrew "+save+" from your savings account. It's now "+login.getSavings()+".");
+		}
+		if(subopt == 3) {
+			System.out.println("Returning to the main menu.");
+		}
+		
+	}
+	
+	if(opt == 4) {
+		System.out.println("You chose to deposit some cash.\nPlease choose an option\n1)Checkings\n2)Savings\n3)Return");
+		subopt = scan.nextInt();
+		while(subopt<0 || subopt>3) {
+			System.out.println("Please enter a valid option.");
+			subopt = scan.nextInt();
+			}
+		if(subopt == 1) {
+			System.out.println("How much would you like to deposit into your checkings account?");
+			check = scan.nextDouble();
+			login.setCheck(check+login.getAcc());
+			for(User e : list) {
+				if(e.getAcc() == login.getAcc()) {
+					e.setCheck(login.getCheckings());
+				}
+			}
+			System.out.println("You deposited "+check+" into your checkings account.");
+		}
+		if(subopt == 2) {
+			System.out.println("How much would you like to deposit into your savings account?");
+			save = scan.nextDouble();
+			login.setSave(login.getSavings()+save);
+			for(User e :list) {
+				if(e.getAcc() == login.getAcc()) {
+					e.setSave(login.getSavings());
+				}
+			}
+			System.out.println("You deposited "+save+" into your checkings account.");
+		}
+		if(subopt == 3) {
+			System.out.println("Returning to the main menu.");
+		}
+	}
+	
+	
+	if(opt == 5) {
+		if(logincheck == false) {
+			System.out.println("You're not logged in.");
+			continue;
+		}
+		double temp;
+		System.out.println("You chose to transfer between accounts.\nPlease choose an option:\n1)Checkings to Savings\n2)Savings to Checkings\n3)Cancel");
+		subopt = scan.nextInt();
+		while(subopt<1 || subopt>3) {
+			System.out.println("Please enter a valid option.");
+			subopt = scan.nextInt();
+		}
+		if(subopt==1) {
+			System.out.println("Please enter an amount you wish to sent to your savings account.");
+			temp = scan.nextDouble();
+			while(temp>login.getCheckings()) {
+				System.out.println("You can't transfer what you don't have!\nPlease enter a valid amount.");
+				temp = scan.nextDouble();
+			}
+			login.setCheck(login.getCheckings()-temp);
+			login.setSave(login.getSavings()+temp);
+			System.out.println("The amount has been transfered.\n"+login.toString());
+		}
+		
+		if(subopt==2) {
+			System.out.println("Please enter an amount you wish to sent to your checkings account.");
+			temp = scan.nextDouble();
+			while(temp>login.getSavings()) {
+				System.out.println("You can't transfer what you don't have!\nPlease enter a valid amount.");
+				temp = scan.nextDouble();
+			}
+			login.setSave(login.getSavings()-temp);
+			login.setCheck(login.getCheckings()+temp);
+			System.out.println("The amount has been transfered.\n"+login.toString());
+		}
+		if(subopt==3) {
+			System.out.println("You chose to cancel, taking you to the main menu.");
+		}
+		break;
+	}
+	
+	if(opt == 6) {
+		if(logincheck == false || list.size()<2) {
+			if(logincheck == false) {
+				System.out.println("Not logged in!");
+				continue;
+			}
+			if(list.size()<2) {
+				System.out.println("Not enough people in the bank!");
+				continue;
+			}
+			}
+		
+		System.out.println("You chose to send money to another person.\nPlease enter their account number.");
+		accNum = scan.nextInt();
+		while(true) {
+			for(User e : list) {
+				if(e.getAcc() == accNum) {
+					System.out.println("Found them!\nPlease choose which account you'd like to send the funds from.\n1)Checkings\n2)Savings\n3)Exit");
+					subopt = scan.nextInt();
+					while(subopt<1 || subopt>3) {
+						System.out.println("Please enter a valid option.");
+						subopt = scan.nextInt();
+					}
+					if(subopt == 1) {
+						System.out.println("You chose to send from checkings.\nPlease enter the amount you'd like to send.");
+						check = scan.nextDouble();
+						while(check > login.getCheckings()) {
+							System.out.println("Please enter a valid amount.");
+							check = scan.nextDouble();
+						}
+						login.setCheck(login.getCheckings()-check);
+						e.setCheck(e.getCheckings()+check);
+						
+						accNum = login.getAcc();
+						for(User f : list) {
+							if(f.getAcc() == accNum) {
+								f.setCheck(login.getCheckings());
+							}
+						}
+						System.out.println("Successfully sent the amount to "+e.getFname()+" "+e.getLname());
+					}
+					if(subopt == 2) {
+						System.out.println("You chose to send from savings.\nPlease enter the amount you'd like to send.");
+						save = scan.nextDouble();
+						while(save > login.getSavings()) {
+							System.out.println("Please enter a valid amount.");
+							save = scan.nextDouble();
+						}
+						login.setSave(login.getSavings()-save);
+						e.setSave(e.getSavings()+save);
+						for(User f : list) {
+							if(f.getAcc() == accNum) {
+								f.setSave(login.getSavings());
+							}
+						}
+						System.out.println("Successfully sent the amount to "+e.getFname()+" "+e.getLname());
+					}
+					if(subopt == 3) {
+						System.out.println("Going back to the main menu.");
+					}
+				}
+			}
+			break;
+		}	
+	}
+	
+	if(opt==7) {
+	if(list.isEmpty()==true) {
+		System.out.println("No accounts have been created.");
+		continue;
+	}
+	System.out.println("Now displaying all accounts:\n");
+	
+	for(User e : list) {
+		System.out.println(e);
+		System.out.println();
+	}
+		
+	}
+	
+	
+	if(opt == 8) {
+		if(logincheck==false) {
+			System.out.println("There's no account logged in.");
+			continue;
+		}
+		login = null;
+		logincheck = false;
+		System.out.println("You have logged out.");
+	}
+	
+	
+	if(opt == 9) {
+		System.out.println("Thanks have a good day!");
+		cont = 1;
+		try{
+			FileWriter fw = new FileWriter("AccountList.txt",false);	
+			fw.write("");
+			for(User e : list) {
+				System.out.println(e.writingIntoFile());
+				fw.write(e.writingIntoFile()+"\n");
+			}
+			fw.close();
+		}catch(IOException e) {	
+			System.out.println("Couldn't do it.");
+				}
+			}
+		}	
+	}
+
+	public static void printMenu() {
+		System.out.println("Please choose an option:");
+		System.out.println("1)Create new account");
+		System.out.println("2)Update account information");
+		System.out.println("3)Withdraw");
+		System.out.println("4)Deposit");
+		System.out.println("5)Transfer between accounts");
+		System.out.println("6)Send Money");
+		System.out.println("7)List all accounts with the bank");
+		System.out.println("8)Logout");
+		System.out.println("9)Exit");	
+	}
+}
+
+/* Please add this as another class when opening.
+
+public class User {
+private String fName;
+private String lName;
+private int accNum;
+private String password;
+private double checkings = 0;
+private double savings = 0;
+
+public User(String fName, String lName,String password, int accNum) {
+	this.fName = fName;
+	this.lName = lName;
+	this.password = password;
+	this.accNum = accNum;
+	this.checkings = 0;
+	this.savings = 0;
+}
+
+public User(User x) {
+	this.fName = x.fName;
+	this.lName = x.lName;
+	this.password = x.password;
+	this.accNum = x.accNum;
+	this.checkings = x.checkings;
+	this.savings = x.savings;
+}
+
+public User(String fName, String lName,String password, int accNum , double checkings, double savings) {
+	this.fName = fName;
+	this.lName = lName;
+	this.password = password;
+	this.accNum = accNum;
+	this.checkings = checkings;
+	this.savings = savings;
+}
+
+public User() {
+	fName = "N/A";
+	lName = "N/A";
+	password = "N/A";
+	accNum = -1;
+	checkings = 0;
+	savings = 0;
+}
+
+public void setFname(String fName) {
+	this.fName = fName;	
+}
+
+public void setLname(String lName) {
+	this.lName = lName;
+}
+
+public void setPassword(String pass) {
+	this.password = pass;
+}
+
+public void setAcc(int accNum) {
+	this.accNum = accNum;
+}
+
+public void setCheck(double checkings) {
+	this.checkings = checkings;
+}
+
+public void setSave(double savings) {
+	this.savings = savings;
+}
+
+public String getFname() {
+	return this.fName;
+}
+
+public String getLname() {
+	return this.lName;
+}
+
+public int getAcc() {
+	return this.accNum;
+}
+
+public double getCheckings() {
+	return this.checkings;
+}
+
+public double getSavings() {
+	return this.savings;
+}
+
+public String getPassword() {
+	return this.password;
+}
+
+
+public String writingIntoFile() {
+	String fileform = this.fName+" "+this.lName+" "+this.password+" "+this.accNum+" "+this.checkings+" "+this.savings;
+	return fileform;
+}
+
+@Override
+public String toString() {
+	return this.fName+" "+this.lName+"\n"+"Account number: "+this.accNum+"\nChecking Balance: "+this.checkings+"\nSavings Balance: "+this.savings;
+}
+
+}
+*/
