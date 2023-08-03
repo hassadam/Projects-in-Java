@@ -1,0 +1,110 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Random;
+
+
+public class Encryption {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+		
+		System.out.println("Please enter a message you wish to encrypt.");
+		String message = scan.nextLine();
+		Scanner scanMessage = new Scanner(message);
+		
+		while(scanMessage.hasNext()) {
+			list.add(encryptMessage(scanMessage.next()));
+		}
+
+		for(ArrayList<Integer> e : list) {
+		System.out.print(decryptMessage(e)+" ");
+		}System.out.println();
+		
+		scan.close();
+		scanMessage.close();
+	}	
+	
+	public static ArrayList<Integer> encryptMessage (String message){
+		ArrayList<Integer> usedNums = new ArrayList<>();
+		int switch1, switch2, i;
+		Random rand = new Random();
+		char[] mArray = message.toCharArray();
+		ArrayList<Integer> x = new ArrayList<>();
+		char temp;
+	
+		for(i = 0;i<mArray.length;i++) {
+			System.out.print(mArray[i]);
+		}System.out.print(" - ");
+		
+		for(i=0;i<Math.floor(mArray.length/2);i++) {
+			switch1 = rand.nextInt(mArray.length);
+			switch2 = rand.nextInt(mArray.length);
+			
+			while((usedNums.contains(switch1))){
+				switch1 = rand.nextInt(mArray.length);
+			}
+			usedNums.add(switch1);
+			
+			while((usedNums.contains(switch2))) {
+				switch2 = rand.nextInt(mArray.length);
+			}
+			usedNums.add(switch2);
+			
+			x.add(rand.nextInt(message.length()));
+			x.add(switch1);
+			x.add(rand.nextInt(message.length()));
+			x.add(switch2);
+			x.add(rand.nextInt(message.length()));
+		
+			temp = mArray[switch1];
+			mArray[switch1] = mArray[switch2];
+			mArray[switch2] = temp;	
+			
+			if(mArray.length==2) {
+				break;
+			}
+		}
+				
+		for(i = 0;i<mArray.length;i++) {
+			x.add(0, Integer.valueOf(mArray[mArray.length-1-i]));
+		}
+		x.add(0,mArray.length*4);
+		
+		for(i = mArray.length;i>0;i--) {
+			x.add(i,rand.nextInt(90,136));
+		}System.out.println(x);
+
+	return x;
+	}
+	
+	public static String decryptMessage(ArrayList<Integer> x) {
+		String y = "";
+		int size = x.get(0);
+		x.remove(0);
+		int i;
+		char temp;
+		
+		for(i=1;i<size/2;i=i+2) {
+			int c = x.get(i);
+			y = y + (char)c;
+		}
+		
+		for(i=0;i<size/2;i++) {
+			x.remove(0);
+		}
+		
+		char[] arr = y.toCharArray();
+		for(i=x.size()-1; i>0; i=i-5) {
+			temp = arr[x.get(i-1)];
+			arr[x.get(i-1)] = arr[x.get(i-3)];
+			arr[x.get(i-3)] = temp;
+		}
+		
+		y="";
+		for(i=0;i<arr.length;i++) {
+			y = y+arr[i];
+		}
+		return y;
+	}
+}
