@@ -1,0 +1,349 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Game {
+
+	public static void main(String[] args) {
+		Random rand = new Random();
+		Scanner scan = new Scanner(System.in);
+		int[][] gameBoard = new int[4][4];
+		int highest = 0; 
+		int direction;
+		int count = 1;
+		boolean exit = false;
+		
+		randomNumber(gameBoard,rand);
+		highest = calcHighest(gameBoard); 
+		printBoard(gameBoard,highest,count);
+		
+		while(true) {
+		System.out.println("Make a choice:\n1)Up\n2)Down\n3)Left\n4)Right\n5)Exit");
+		direction = scan.nextInt();
+		while(direction>5 || direction<1) {
+			System.out.println("Please enter a valid input.");
+			direction = scan.nextInt();
+		}
+		
+		switch(direction) {
+		case 1:
+			gameBoard = checkUp(gameBoard);
+			break;
+		case 2:
+			gameBoard = checkDown(gameBoard);
+			break;
+		case 3:
+			gameBoard = checkLeft(gameBoard);
+			break;
+		case 4:
+			gameBoard = checkRight(gameBoard);
+			break;
+		case 5:
+			exit = true;
+			break;
+		default:
+		}
+		count++;
+		if(exit) {
+			System.out.println("Goodbye!");
+			break;
+		}
+		highest = calcHighest(gameBoard);
+		if(checkLost(gameBoard)) {
+			System.out.println("You lost!");
+			break;
+		}
+		if(highest>=2048) {
+			System.out.println("You win!");
+			break;
+		}
+		randomNumber(gameBoard,rand);
+		printBoard(gameBoard,highest,count);
+		}
+		scan.close();
+	}
+	
+	public static void printBoard(int[][] x,int total,int count) {
+		System.out.println("Turn: "+count);
+		System.out.println("Highest: "+total);
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				System.out.printf("%-4d",x[i][j]);
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+	
+	public static int calcHighest(int[][] x) {
+		int highest = 0;
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(highest <= x[i][j])
+				highest = x[i][j];
+			}
+		}
+		return highest;
+	}
+	
+	public static int[][] checkRight(int [][]x){
+		for(int i=3;i>=0;i--) {
+			for(int j=3;j>=0;j--) {
+				if(x[i][j]==0 && j>=3) {
+					x[i][j] = x[i][j-1];
+					x[i][j-1] = x[i][j-2];
+					x[i][j-2] = x[i][j-3];
+					x[i][j-3]=0;
+				}
+				if(x[i][j]==0 && j>=2) {
+					x[i][j] = x[i][j-1];
+					x[i][j-1] = x[i][j-2];
+					x[i][j-2] = 0;
+				}
+				if(x[i][j]==0 && j>=1) {
+					x[i][j] = x[i][j-1];
+					x[i][j-1] = 0;
+				}
+			}
+		}
+		for(int i=3;i>=0;i--) {
+			for(int j=3;j>=0;j--){
+				if(j==3 && x[i][j]==x[i][j-1]) {
+					x[i][j]=x[i][j]*2;
+					x[i][j-1]=x[i][j-2];
+					x[i][j-2] = x[i][j-3];
+					x[i][j-3] = 0;
+				}
+				if(j==2 && (x[i][j]==x[i][j-1] || x[i][j+1]==x[i][j])) {					
+					if(x[i][j]==x[i][j-1]) {
+					x[i][j]=x[i][j]*2;
+					x[i][j-1]=x[i][j-2];
+					x[i][j-2] = 0;
+					}
+					if(x[i][j+1]==x[i][j]) {
+						x[i][j+1] = x[i][j+1]*2;
+						x[i][j] = x[i][j-1];
+						x[i][j-1] = x[i][j-2];
+						x[i][j-2] = 0;
+					}
+				}
+				if(j==1 && (x[i][j]==x[i][j-1] || x[i][j+1]==x[i][j])) {
+					if(x[i][j]==x[i][j-1]) {
+					x[i][j]=x[i][j]*2;
+					x[i][j-1]=0;
+					}
+					if(x[i][j+1]==x[i][j]) {
+						x[i][j+1] = x[i][j+1]*2;
+						x[i][j]=0;
+					}
+					if(x[i][j+2]==x[i][j+1]) {
+						x[i][j+2] = x[i][j+2]*2;
+						x[i][j+1]=0;
+					}
+					
+				}
+			}
+		}
+		
+		return x;
+	}
+	
+	public static int[][] checkLeft(int [][]x){
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(x[i][j]==0 && j<=0) {
+					x[i][j] = x[i][j+1];
+					x[i][j+1] = x[i][j+2];
+					x[i][j+2] = x[i][j+3];
+					x[i][j+3]=0;
+				}
+				if(x[i][j]==0 && j<=1) {
+					x[i][j] = x[i][j+1];
+					x[i][j+1] = x[i][j+2];
+					x[i][j+2] = 0;
+				}
+				if(x[i][j]==0 && j<=2) {
+					x[i][j] = x[i][j+1];
+					x[i][j+1] = 0;
+				}
+			}
+		}
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<3;j++){
+				if(j==0 && x[i][j]==x[i][j+1]) {
+					x[i][j]=x[i][j]*2;
+					x[i][j+1]=x[i][j+2];
+					x[i][j+2] = x[i][j+3];
+					x[i][j+3] = 0;
+				}
+				if(j==1 && (x[i][j]==x[i][j+1] || x[i][j-1]==x[i][j])) {					
+					if(x[i][j]==x[i][j+1]) {
+					x[i][j]=x[i][j]*2;
+					x[i][j+1]=x[i][j+2];
+					x[i][j+2] = 0;
+					}
+					if(x[i][j-1]==x[i][j]) {
+						x[i][j-1] = x[i][j-1]*2;
+						x[i][j] = x[i][j+1];
+						x[i][j+1] = x[i][j+2];
+						x[i][j+2] = 0;
+					}
+				}
+				if(j==2 && (x[i][j]==x[i][j+1] || x[i][j-1]==x[i][j])) {
+					if(x[i][j]==x[i][j+1]) {
+					x[i][j]=x[i][j]*2;
+					x[i][j+1]=0;
+					}
+					if(x[i][j-1]==x[i][j]) {
+						x[i][j-1] = x[i][j-1]*2;
+						x[i][j]=0;
+					}
+					if(x[i][j-2]==x[i][j-1]) {
+						x[i][j-2] = x[i][j-2]*2;
+						x[i][j-1]=0;
+					}
+				}
+			}
+		}
+		
+		return x;
+	}
+	
+	public static int[][] checkUp(int [][]x){
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(x[i][j]==0 && i<=0) {
+					x[i][j] = x[i+1][j];
+					x[i+1][j] = x[i+2][j];
+					x[i+2][j] = x[i+3][j];
+					x[i+3][j] = 0;
+				}
+				if(x[i][j]==0 && i<=1) {
+					x[i][j]=x[i+1][j];
+					x[i+1][j] = x[i+2][j];
+					x[i+2][j] = 0;
+				}
+				if(x[i][j]==0 && i<=2) {
+					x[i][j]=x[i+1][j];
+					x[i+1][j] = 0;
+				}
+			}
+		}
+		
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(i==0 && (x[i][j]==x[i+1][j])) {
+					x[i][j] = x[i][j]*2;
+					x[i+1][j] = 0;
+				}
+				if(i==1 && (x[i][j] == x[i+1][j] || x[i][j]==x[i-1][j])) {
+					if(x[i][j] == x[i+1][j]) {
+						x[i][j] = x[i][j]*2;
+						x[i+1][j] = 0;
+					}
+					if(x[i][j] == x[i-1][j]) {
+						x[i-1][j] = x[i-1][j]*2;
+						x[i][j] = 0;
+					}
+				}
+				if(i==2 && (x[i][j] == x[i+1][j]|| x[i][j]==x[i-1][j])) {
+					if(x[i][j]==x[i+1][j]) {
+					x[i][j]=x[i][j]*2;
+					x[i+1][j]=0;
+					}
+					if(x[i-1][j]==x[i][j]) {
+						x[i-1][j] = x[i-1][j]*2;
+						x[i][j]=0;
+					}
+					if(x[i-2][j]==x[i-1][j]) {
+						x[i-2][j] = x[i-2][j]*2;
+						x[i-1][j]=0;
+					}
+				}
+			}
+		}
+		return x;
+	}
+	
+	public static int[][] checkDown(int [][]x){
+		for(int i=3;i>=0;i--) {
+			for(int j=0;j<4;j++) {
+				if(i==3 && x[i][j]==0) {
+					x[i][j]=x[i-1][j];
+					x[i-1][j] = x[i-2][j];
+					x[i-2][j] = x[i-3][j];
+					x[i-3][j]=0;
+				}
+				if(i>=2 && x[i][j]==0) {
+					x[i][j]=x[i-1][j];
+					x[i-1][j] = x[i-2][j];
+					x[i-2][j] = 0;
+				}
+				if(i>=1 && x[i][j]==0) {
+					x[i][j]=x[i-1][j];
+					x[i-1][j] = 0;
+				}
+			}
+		}
+		
+		for(int i=3;i>=0;i--) {
+			for(int j=0;j<4;j++) {
+				if(i==3 && (x[i][j]==x[i-1][j])) {
+					x[i][j] = x[i][j]*2;
+					x[i-1][j] = x[i-2][j];
+					x[i-2][j] = x[i-3][j];
+					x[i-3][j] = 0;
+				}
+				if(i==2 && (x[i][j] == x[i-1][j] || x[i][j]==x[i+1][j])) {
+					if(x[i][j] == x[i-1][j]) {
+						x[i][j] = x[i][j]*2;
+						x[i-1][j] = 0;
+					}
+					if(x[i][j] == x[i+1][j]) {
+						x[i+1][j] = x[i+1][j]*2;
+						x[i][j] = 0;	
+					}
+				}
+				if(i==1 && (x[i][j] == x[i+1][j]|| x[i][j]==x[i-1][j])) {
+					if(x[i][j]==x[i-1][j]) {
+					x[i][j]=x[i][j]*2;
+					x[i-1][j]=0;
+					}
+					if(x[i+1][j]==x[i][j]) {
+						x[i+1][j] = x[i+1][j]*2;
+						x[i][j]=0;
+					}
+					if(x[i+2][j]==x[i+1][j]) {
+						x[i+2][j] = x[i+2][j]*2;
+						x[i+1][j]=0;
+					}
+				}
+			}
+		}
+		return x;
+	}
+	
+	public static boolean checkLost(int [][]x) {
+		boolean check = true;
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(x[i][j]==0) {
+					check = false;
+				}
+			}
+			if(check == false)
+				break;
+		}
+		return check;
+	}
+	
+	public static int[][] randomNumber(int[][] x,Random rand){
+		int a = rand.nextInt(4);
+		int b = rand.nextInt(4);
+		while(x[a][b]!=0) {
+			a = rand.nextInt(4);
+			b = rand.nextInt(4);
+		}
+		x[a][b] = 2;
+		return x;
+	}
+}
