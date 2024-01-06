@@ -1,0 +1,933 @@
+	import java.awt.*;
+	import java.awt.event.*;
+	import javax.swing.*;
+	
+public class Game implements ActionListener {
+
+		JFrame frame = new JFrame();
+		JPanel title_panel = new JPanel();
+		JPanel button_panel = new JPanel();
+		JLabel textfield = new JLabel();
+		JButton[] buttons = new JButton[49];
+		boolean player1_turn=true;
+		int turns = 0;
+		boolean winner = false;
+		
+		Game(){
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setSize(600,600);
+			frame.getContentPane().setBackground(new Color(50,50,50));
+			frame.setLayout(new BorderLayout());
+			frame.setVisible(true);
+			frame.setName("Connect 4");
+			
+			textfield.setBackground(new Color(25,25,25));
+			textfield.setForeground(new Color(25,255,0));
+			textfield.setFont(new Font("Ink Free",Font.BOLD,75));
+			textfield.setHorizontalAlignment(JLabel.CENTER);
+			textfield.setText("Connect 4");
+			textfield.setOpaque(true);
+			
+			title_panel.setLayout(new BorderLayout());
+			title_panel.setBounds(0,0,600,100);
+			
+			button_panel.setLayout(new GridLayout(7,7));
+			button_panel.setBackground(new Color(150,150,150));
+			
+			for(int i=0;i<49;i++) {
+				buttons[i] = new JButton();
+				button_panel.add(buttons[i]);
+				buttons[i].setFont(new Font("MV Boli",Font.BOLD,50));
+				buttons[i].setFocusable(false);
+				if(i>=0&&i<7) {
+				buttons[i].setText(String.valueOf(i+1));
+				}
+				buttons[i].addActionListener(this);
+			}
+			title_panel.add(textfield);
+			frame.add(title_panel,BorderLayout.NORTH);
+			frame.add(button_panel);
+
+			try {
+				Thread.sleep(2000);
+				textfield.setText("X turn");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			for(int i=0;i<42;i++) {
+				if(e.getSource()==buttons[i]) {
+					//Player 1's turn
+					if(player1_turn) {
+						turns++;
+						if(e.getSource()==buttons[0]) {
+							if(buttons[42].getText()=="") {
+								buttons[42].setForeground(new Color(255,0,0));
+								buttons[42].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[35].getText()=="") {
+									buttons[35].setForeground(new Color(255,0,0));
+									buttons[35].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[28].getText()=="") {
+										buttons[28].setForeground(new Color(255,0,0));
+										buttons[28].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[21].getText()=="") {
+											buttons[21].setForeground(new Color(255,0,0));
+											buttons[21].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[14].getText()=="") {
+												buttons[14].setForeground(new Color(255,0,0));
+												buttons[14].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[7].getText()=="") {
+													buttons[7].setForeground(new Color(255,0,0));
+													buttons[7].setText("X");
+													buttons[0].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						if(e.getSource()==buttons[1]) {
+							if(buttons[43].getText()=="") {
+								buttons[43].setForeground(new Color(255,0,0));
+								buttons[43].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[36].getText()=="") {
+									buttons[36].setForeground(new Color(255,0,0));
+									buttons[36].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[29].getText()=="") {
+										buttons[29].setForeground(new Color(255,0,0));
+										buttons[29].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[22].getText()=="") {
+											buttons[22].setForeground(new Color(255,0,0));
+											buttons[22].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[15].getText()=="") {
+												buttons[15].setForeground(new Color(255,0,0));
+												buttons[15].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[8].getText()=="") {
+													buttons[8].setForeground(new Color(255,0,0));
+													buttons[8].setText("X");
+													buttons[1].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[2]) {
+							if(buttons[44].getText()=="") {
+								buttons[44].setForeground(new Color(255,0,0));
+								buttons[44].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[37].getText()=="") {
+									buttons[37].setForeground(new Color(255,0,0));
+									buttons[37].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[30].getText()=="") {
+										buttons[30].setForeground(new Color(255,0,0));
+										buttons[30].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[23].getText()=="") {
+											buttons[23].setForeground(new Color(255,0,0));
+											buttons[23].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[16].getText()=="") {
+												buttons[16].setForeground(new Color(255,0,0));
+												buttons[16].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[9].getText()=="") {
+													buttons[9].setForeground(new Color(255,0,0));
+													buttons[9].setText("X");
+													buttons[2].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						if(e.getSource()==buttons[3]) {
+							if(buttons[45].getText()=="") {
+								buttons[45].setForeground(new Color(255,0,0));
+								buttons[45].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[38].getText()=="") {
+									buttons[38].setForeground(new Color(255,0,0));
+									buttons[38].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[31].getText()=="") {
+										buttons[31].setForeground(new Color(255,0,0));
+										buttons[31].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[24].getText()=="") {
+											buttons[24].setForeground(new Color(255,0,0));
+											buttons[24].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[17].getText()=="") {
+												buttons[17].setForeground(new Color(255,0,0));
+												buttons[17].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[10].getText()=="") {
+													buttons[10].setForeground(new Color(255,0,0));
+													buttons[10].setText("X");
+													buttons[3].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[4]) {
+							if(buttons[46].getText()=="") {
+								buttons[46].setForeground(new Color(255,0,0));
+								buttons[46].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[39].getText()=="") {
+									buttons[39].setForeground(new Color(255,0,0));
+									buttons[39].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[32].getText()=="") {
+										buttons[32].setForeground(new Color(255,0,0));
+										buttons[32].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[25].getText()=="") {
+											buttons[25].setForeground(new Color(255,0,0));
+											buttons[25].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[18].getText()=="") {
+												buttons[18].setForeground(new Color(255,0,0));
+												buttons[18].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[11].getText()=="") {
+													buttons[11].setForeground(new Color(255,0,0));
+													buttons[11].setText("X");
+													buttons[4].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[5]) {
+							if(buttons[47].getText()=="") {
+								buttons[47].setForeground(new Color(255,0,0));
+								buttons[47].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[40].getText()=="") {
+									buttons[40].setForeground(new Color(255,0,0));
+									buttons[40].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[33].getText()=="") {
+										buttons[33].setForeground(new Color(255,0,0));
+										buttons[33].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[26].getText()=="") {
+											buttons[26].setForeground(new Color(255,0,0));
+											buttons[26].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[19].getText()=="") {
+												buttons[19].setForeground(new Color(255,0,0));
+												buttons[19].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[12].getText()=="") {
+													buttons[12].setForeground(new Color(255,0,0));
+													buttons[12].setText("X");
+													buttons[5].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+						if(e.getSource()==buttons[6]) {
+							if(buttons[48].getText()=="") {
+								buttons[48].setForeground(new Color(255,0,0));
+								buttons[48].setText("X");
+								player1_turn = false;
+								textfield.setText("O turn");
+								
+							}else {
+								if(buttons[41].getText()=="") {
+									buttons[41].setForeground(new Color(255,0,0));
+									buttons[41].setText("X");
+									player1_turn = false;
+									textfield.setText("O turn");
+									
+								}else {
+									if(buttons[34].getText()=="") {
+										buttons[34].setForeground(new Color(255,0,0));
+										buttons[34].setText("X");
+										player1_turn = false;
+										textfield.setText("O turn");
+										
+									}else {
+										if(buttons[27].getText()=="") {
+											buttons[27].setForeground(new Color(255,0,0));
+											buttons[27].setText("X");
+											player1_turn = false;
+											textfield.setText("O turn");
+											
+										}else {
+											if(buttons[20].getText()=="") {
+												buttons[20].setForeground(new Color(255,0,0));
+												buttons[20].setText("X");
+												player1_turn = false;
+												textfield.setText("O turn");
+												
+											}else {
+												if(buttons[13].getText()=="") {
+													buttons[13].setForeground(new Color(255,0,0));
+													buttons[13].setText("X");
+													buttons[6].setEnabled(false);
+													player1_turn = false;
+													textfield.setText("O turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}	
+					}
+					//Player 2
+					else {
+						turns++;
+						if(e.getSource()==buttons[0]) {
+							if(buttons[42].getText()=="") {
+								buttons[42].setForeground(new Color(0,0,255));
+								buttons[42].setText("O");
+								player1_turn = true;
+								textfield.setText("X turn");
+								
+							}else {
+								if(buttons[35].getText()=="") {
+									buttons[35].setForeground(new Color(0,0,255));
+									buttons[35].setText("O");
+									player1_turn = true;
+									textfield.setText("X turn");
+									
+								}else {
+									if(buttons[28].getText()=="") {
+										buttons[28].setForeground(new Color(0,0,255));
+										buttons[28].setText("O");
+										player1_turn = true;
+										textfield.setText("X turn");
+										
+									}else {
+										if(buttons[21].getText()=="") {
+											buttons[21].setForeground(new Color(0,0,255));
+											buttons[21].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+											
+										}else {
+											if(buttons[14].getText()=="") {
+												buttons[14].setForeground(new Color(0,0,255));
+												buttons[14].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[7].getText()=="") {
+													buttons[7].setForeground(new Color(0,0,255));
+													buttons[7].setText("O");
+													buttons[0].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[1]) {
+							if(buttons[43].getText()=="") {
+								buttons[43].setForeground(new Color(0,0,255));
+								buttons[43].setText("O");
+								player1_turn = true;
+								textfield.setText("X turn");
+								
+							}else {
+								if(buttons[36].getText()=="") {
+									buttons[36].setForeground(new Color(0,0,255));
+									buttons[36].setText("O");
+									player1_turn = true;
+									textfield.setText("X turn");
+									
+								}else {
+									if(buttons[29].getText()=="") {
+										buttons[29].setForeground(new Color(0,0,255));
+										buttons[29].setText("O");
+										player1_turn = true;
+										textfield.setText("X turn");
+										
+									}else {
+										if(buttons[22].getText()=="") {
+											buttons[22].setForeground(new Color(0,0,255));
+											buttons[22].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+											
+										}else {
+											if(buttons[15].getText()=="") {
+												buttons[15].setForeground(new Color(0,0,255));
+												buttons[15].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[8].getText()=="") {
+													buttons[8].setForeground(new Color(0,0,255));
+													buttons[8].setText("O");
+													buttons[1].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[2]) {
+							if(buttons[44].getText()=="") {
+								buttons[44].setForeground(new Color(0,0,255));
+								buttons[44].setText("O");
+								player1_turn = true;
+								textfield.setText("X turn");
+								
+							}else {
+								if(buttons[37].getText()=="") {
+									buttons[37].setForeground(new Color(0,0,255));
+									buttons[37].setText("O");
+									player1_turn = true;
+									textfield.setText("X turn");
+									
+								}else {
+									if(buttons[30].getText()=="") {
+										buttons[30].setForeground(new Color(0,0,255));
+										buttons[30].setText("O");
+										player1_turn = true;
+										textfield.setText("X turn");
+										
+									}else {
+										if(buttons[23].getText()=="") {
+											buttons[23].setForeground(new Color(0,0,255));
+											buttons[23].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+											
+										}else {
+											if(buttons[16].getText()=="") {
+												buttons[16].setForeground(new Color(0,0,255));
+												buttons[16].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[9].getText()=="") {
+													buttons[9].setForeground(new Color(0,0,255));
+													buttons[9].setText("O");
+													buttons[2].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[3]) {
+							if(buttons[45].getText()=="") {
+								buttons[45].setForeground(new Color(0,0,255));
+								buttons[45].setText("O");
+								player1_turn = true;
+								textfield.setText("X turn");
+								
+							}else {
+								if(buttons[38].getText()=="") {
+									buttons[38].setForeground(new Color(0,0,255));
+									buttons[38].setText("O");
+									player1_turn = true;
+									textfield.setText("X turn");
+									
+								}else {
+									if(buttons[31].getText()=="") {
+										buttons[31].setForeground(new Color(0,0,255));
+										buttons[31].setText("O");
+										player1_turn = true;
+										textfield.setText("X turn");
+										
+									}else {
+										if(buttons[24].getText()=="") {
+											buttons[24].setForeground(new Color(0,0,255));
+											buttons[24].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+											
+										}else {
+											if(buttons[17].getText()=="") {
+												buttons[17].setForeground(new Color(0,0,255));
+												buttons[17].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[10].getText()=="") {
+													buttons[10].setForeground(new Color(0,0,255));
+													buttons[10].setText("O");
+													buttons[3].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[4]) {
+							if(buttons[46].getText()=="") {
+								buttons[46].setForeground(new Color(0,0,255));
+								buttons[46].setText("O");
+								player1_turn = true;
+								textfield.setText("X turn");
+								
+							}else {
+								if(buttons[39].getText()=="") {
+									buttons[39].setForeground(new Color(0,0,255));
+									buttons[39].setText("O");
+									player1_turn = true;
+									textfield.setText("X turn");
+									
+								}else {
+									if(buttons[32].getText()=="") {
+										buttons[32].setForeground(new Color(0,0,255));
+										buttons[32].setText("O");
+										player1_turn = true;
+										textfield.setText("X turn");
+										
+									}else {
+										if(buttons[25].getText()=="") {
+											buttons[25].setForeground(new Color(0,0,255));
+											buttons[25].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+											
+										}else {
+											if(buttons[18].getText()=="") {
+												buttons[18].setForeground(new Color(0,0,255));
+												buttons[18].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[11].getText()=="") {
+													buttons[11].setForeground(new Color(0,0,255));
+													buttons[11].setText("O");
+													buttons[4].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[5]) {
+							if(buttons[47].getText()=="") {
+								buttons[47].setForeground(new Color(0,0,255));
+								buttons[47].setText("O");
+								
+								player1_turn = true;
+								textfield.setText("X turn");
+							}else {
+								if(buttons[40].getText()=="") {
+									buttons[40].setForeground(new Color(0,0,255));
+									buttons[40].setText("O");
+									
+									player1_turn = true;
+									textfield.setText("X turn");
+								}else {
+									if(buttons[33].getText()=="") {
+										buttons[33].setForeground(new Color(0,0,255));
+										buttons[33].setText("O");
+										
+										player1_turn = true;
+										textfield.setText("X turn");
+									}else {
+										if(buttons[26].getText()=="") {
+											buttons[26].setForeground(new Color(0,0,255));
+											buttons[26].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+										}else {
+											if(buttons[19].getText()=="") {
+												buttons[19].setForeground(new Color(0,0,255));
+												buttons[19].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[12].getText()=="") {
+													buttons[12].setForeground(new Color(0,0,255));
+													buttons[12].setText("O");
+													buttons[5].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+													
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						if(e.getSource()==buttons[6]) {
+							if(buttons[48].getText()=="") {
+								buttons[48].setForeground(new Color(0,0,255));
+								buttons[48].setText("O");
+								player1_turn = true;
+								textfield.setText("X turn");
+								
+							}else {
+								if(buttons[41].getText()=="") {
+									buttons[41].setForeground(new Color(0,0,255));
+									buttons[41].setText("O");
+									player1_turn = true;
+									textfield.setText("X turn");
+									
+								}else {
+									if(buttons[34].getText()=="") {
+										buttons[34].setForeground(new Color(0,0,255));
+										buttons[34].setText("O");
+										player1_turn = true;
+										textfield.setText("X turn");
+										
+									}else {
+										if(buttons[27].getText()=="") {
+											buttons[27].setForeground(new Color(0,0,255));
+											buttons[27].setText("O");
+											player1_turn = true;
+											textfield.setText("X turn");
+											
+										}else {
+											if(buttons[20].getText()=="") {
+												buttons[20].setForeground(new Color(0,0,255));
+												buttons[20].setText("O");
+												player1_turn = true;
+												textfield.setText("X turn");
+												
+											}else {
+												if(buttons[13].getText()=="") {
+													buttons[13].setForeground(new Color(0,0,255));
+													buttons[13].setText("O");
+													
+													buttons[6].setEnabled(false);
+													player1_turn = true;
+													textfield.setText("X turn");
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				check();
+				if(turns==42&&!winner) {
+					textfield.setText("Draw!");
+					textfield.setForeground(Color.yellow);
+					for(int j=0;j<49;j++) {
+						buttons[j].setEnabled(false);
+					}
+				}
+			}
+		}
+		
+		public void check() {
+			//X wins Horizontal
+			for(int i=0;i<41;i=i+7) {
+				if( (buttons[7+i].getText()=="X")&&
+				    (buttons[8+i].getText()=="X")&&
+				    (buttons[9+i].getText()=="X")&&
+				    (buttons[10+i].getText()=="X")) {
+					xWins((7+i),(8+i),(9+i),(10+i));
+					}
+				if( (buttons[8+i].getText()=="X")&&
+					(buttons[9+i].getText()=="X")&&
+					(buttons[10+i].getText()=="X")&&
+					(buttons[11+i].getText()=="X")) {
+					xWins((8+i),(9+i),(10+i),(11+i));
+					}
+				if( (buttons[9+i].getText()=="X")&&
+					(buttons[10+i].getText()=="X")&&
+					(buttons[11+i].getText()=="X")&&
+					(buttons[12+i].getText()=="X")) {
+					xWins((9+i),(10+i),(11+i),(12+i));
+					}
+				if((buttons[10+i].getText()=="X")&&(buttons[11+i].getText()=="X")&&(buttons[12+i].getText()=="X")&&(buttons[13+i].getText()=="X")) {
+					xWins((10+i),(11+i),(12+i),(13+i));
+					}
+			}
+			
+			//X wins vertical
+			for(int i=0;i<7;i++) {
+				if((buttons[7+i].getText()=="X")&&(buttons[14+i].getText()=="X")&&(buttons[21+i].getText()=="X")&&(buttons[28+i].getText()=="X")) {
+						xWins((7+i),(14+i),(21+i),(28+i));
+						}
+				if((buttons[14+i].getText()=="X")&&(buttons[21+i].getText()=="X")&&(buttons[28+i].getText()=="X")&&(buttons[35+i].getText()=="X")) {
+						xWins((35+i),(14+i),(21+i),(28+i));
+						}
+				if((buttons[21+i].getText()=="X")&&(buttons[28+i].getText()=="X")&&(buttons[35+i].getText()=="X")&&(buttons[42+i].getText()=="X")) {
+						xWins((35+i),(42+i),(21+i),(28+i));
+						}
+			}
+			
+			//X wins up-diagonal
+			for(int i=0;i<4;i++) {
+				if((buttons[28+i].getText()=="X")&&(buttons[22+i].getText()=="X")&&(buttons[16+i].getText()=="X")&&(buttons[10+i].getText()=="X")){
+					xWins(28+i,22+i,16+i,10+i);
+					}
+				if((buttons[35+i].getText()=="X")&&(buttons[29+i].getText()=="X")&&(buttons[23+i].getText()=="X")&&(buttons[17+i].getText()=="X")){
+					xWins(29+i,23+i,17+i,35+i);
+					}
+				if((buttons[42+i].getText()=="X")&&(buttons[36+i].getText()=="X")&&(buttons[30+i].getText()=="X")&&(buttons[24+i].getText()=="X")){
+					xWins(42+i,36+i,30+i,24+i);
+					}
+			}
+			
+			//X wins down-diagonal
+			for(int i=0;i<4;i++) {
+				if((buttons[7+i].getText()=="X")&&(buttons[15+i].getText()=="X")&&(buttons[23+i].getText()=="X")&&(buttons[31+i].getText()=="X")){
+					xWins(7+i,15+i,23+i,31+i);
+					}
+				if((buttons[14+i].getText()=="X")&&(buttons[22+i].getText()=="X")&&(buttons[30+i].getText()=="X")&&(buttons[38+i].getText()=="X")){
+					xWins(14+i,22+i,30+i,38+i);
+					}
+				if((buttons[21+i].getText()=="X")&&(buttons[29+i].getText()=="X")&&(buttons[37+i].getText()=="X")&&(buttons[45+i].getText()=="X")){
+					xWins(21+i,29+i,37+i,45+i);
+					}
+			}
+			
+			//O wins Horizontal
+			for(int i=0;i<41;i=i+7) {
+				if((buttons[7+i].getText()=="O")&&(buttons[8+i].getText()=="O")&&(buttons[9+i].getText()=="O")&&(buttons[10+i].getText()=="O")) {
+					oWins((7+i),(8+i),(9+i),(10+i));
+					}
+				if((buttons[8+i].getText()=="O")&&(buttons[9+i].getText()=="O")&&(buttons[10+i].getText()=="O")&&(buttons[11+i].getText()=="O")) {
+					oWins((8+i),(9+i),(10+i),(11+i));
+					}
+				if((buttons[9+i].getText()=="O")&&(buttons[10+i].getText()=="O")&&(buttons[11+i].getText()=="O")&&(buttons[12+i].getText()=="O")) {
+					oWins((9+i),(10+i),(11+i),(12+i));
+					}
+				if((buttons[10+i].getText()=="O")&&(buttons[11+i].getText()=="O")&&(buttons[12+i].getText()=="O")&&(buttons[13+i].getText()=="O")) {
+					oWins((10+i),(11+i),(12+i),(13+i));
+					}
+			}
+			
+			//O wins vertical
+			for(int i=0;i<7;i++) {
+			if((buttons[7+i].getText()=="O")&&(buttons[14+i].getText()=="O")&&(buttons[21+i].getText()=="O")&&(buttons[28+i].getText()=="O")) {
+				oWins((7+i),(14+i),(21+i),(28+i));
+				}
+			if((buttons[14+i].getText()=="O")&&(buttons[21+i].getText()=="O")&&(buttons[28+i].getText()=="O")&&(buttons[35+i].getText()=="O")) {
+				oWins((35+i),(14+i),(21+i),(28+i));
+				}
+			if(((buttons[21+i].getText()=="O")&&(buttons[28+i].getText()=="O")&&buttons[35+i].getText()=="O")&&(buttons[42+i].getText()=="O")) {
+				oWins((35+i),(42+i),(21+i),(28+i));
+				}
+			}
+			
+			//O wins up-diagonal
+			for(int i=0;i<4;i++) {
+			if((buttons[28+i].getText()=="O")&&(buttons[22+i].getText()=="O")&&(buttons[16+i].getText()=="O")&&(buttons[10+i].getText()=="O")){
+				oWins(28+i,22+i,16+i,10+i);
+				}
+			if((buttons[35+i].getText()=="O")&&(buttons[29+i].getText()=="O")&&(buttons[23+i].getText()=="O")&&(buttons[17+i].getText()=="O")){
+				oWins(29+i,23+i,17+i,35+i);
+				}
+			if((buttons[42+i].getText()=="O")&&(buttons[36+i].getText()=="O")&&(buttons[30+i].getText()=="O")&&(buttons[24+i].getText()=="O")){
+				oWins(42+i,36+i,30+i,24+i);
+				}
+			}
+			
+			//O wins down-diagonal
+			for(int i=0;i<4;i++) {
+				if((buttons[7+i].getText()=="O")&&(buttons[15+i].getText()=="O")&&(buttons[23+i].getText()=="O")&&(buttons[31+i].getText()=="O")){
+					oWins(7+i,15+i,23+i,31+i);
+					}
+				if((buttons[14+i].getText()=="O")&&(buttons[22+i].getText()=="O")&&(buttons[30+i].getText()=="O")&&(buttons[38+i].getText()=="O")){
+					oWins(14+i,22+i,30+i,38+i);
+					}
+				if((buttons[21+i].getText()=="O")&&(buttons[29+i].getText()=="O")&&(buttons[37+i].getText()=="O") &&(buttons[45+i].getText()=="O")){
+					oWins(21+i,29+i,37+i,45+i);
+					}
+				}
+			}
+		
+		public void xWins(int a, int b, int c, int d) {
+			buttons[a].setBackground(Color.green);
+			buttons[b].setBackground(Color.green);
+			buttons[c].setBackground(Color.green);
+			buttons[d].setBackground(Color.green);
+			
+			for(int i=0;i<49;i++) {
+				buttons[i].setEnabled(false);
+			}
+			textfield.setText("X wins");
+			winner = true;
+		}
+		
+		public void oWins(int a, int b, int c, int d) {
+			buttons[a].setBackground(Color.green);
+			buttons[b].setBackground(Color.green);
+			buttons[c].setBackground(Color.green);
+			buttons[d].setBackground(Color.green);
+			
+			for(int i=0;i<49;i++) {
+				buttons[i].setEnabled(false);
+			}
+			textfield.setText("O wins");
+			winner = true;
+		}	
+	}
